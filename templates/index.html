@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+            rel="stylesheet"
+        />
+        <title>Aplikasi Prediksi Cuaca Kota Surabaya</title>
+    </head>
+    <body
+        class="
+            flex flex-col
+            justify-between
+            item-center
+            p-8
+            min-h-screen
+            bg-gradient-to-r
+            from-red-400
+            to-yellow-500
+            text-gray-800
+            md:flex-row
+        "
+    >
+        <main class="bg-white p-16 rounded-lg">
+            <h1 class="text-3xl font-bold mb-8">
+              Kondisi Cuaca Hari Ini:
+          </h1>
+
+            <form
+                action="{{ url_for('predict') }}"
+                method="post"
+                class="flex flex-col"
+            >
+                <label for="TempMin" class="mb-2">Temperatur Minimal</label>
+                <input
+                    type="text"
+                    name="TempMin"
+                    placeholder="Temperatur Minimal"
+                    required="required"
+                    class="p-4 bg-gray-100 rounded-md"
+                />
+				
+				<label for="TempMax" class="mb-2">Temperatur Maksimal</label>
+                <input
+                    type="text"
+                    name="TempMax"
+                    placeholder="Temperatur Maksimal"
+                    required="required"
+                    class="p-4 bg-gray-100 rounded-md"
+                />
+				
+				<label for="LemAvg" class="mb-2">Kelembapan Rata-rata</label>
+                <input
+                    type="text"
+                    name="LemAvg"
+                    placeholder="Kelembapan Rata-rata"
+                    required="required"
+                    class="p-4 bg-gray-100 rounded-md"
+                />
+				
+				<label for="Hujan" class="mb-2">Curah Hujan</label>
+                <input
+                    type="text"
+                    name="Hujan"
+                    placeholder="Curah Hujan"
+                    required="required"
+                    class="p-4 bg-gray-100 rounded-md"
+                />
+				
+				<label for="SinMth" class="mb-2">Lama Sinar Matahari</label>
+                <input
+                    type="text"
+                    name="SinMth"
+                    placeholder="Lama Sinar Matahari"
+                    required="required"
+                    class="p-4 bg-gray-100 rounded-md"
+                />
+				
+				<label for="AnginAvg" class="mb-2">Kecepatan Angin Rata-rata</label>
+                <input
+                    type="text"
+                    name="AnginAvg"
+                    placeholder="Kecepatan Angin Rata-rata"
+                    required="required"
+                    class="p-4 bg-gray-100 rounded-md"
+                />
+
+                <button
+                    type="submit"
+                    class="
+                        flex
+                        justify-center
+                        align-center
+                        mt-8
+                        p-4
+                        bg-gradient-to-r
+                        from-red-400
+                        to-yellow-500
+                        text-white
+                        rounded-md
+                    "
+                >
+                    PREDIKSI
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="feather feather-arrow-right ml-4"
+                    >
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </form>
+        </main>
+        <section class="mt-8 h-full flex-auto rounded-lg md:mt-0 md:ml-8">
+            <div class="bg-white p-16 rounded-lg">
+                <h1 class="text-3xl mb-8">
+                    Prediksi Cuaca Esok Hari
+                </h1>
+                <h2 class="text-5xl font-bold">{{ cuaca_esok }}</h2>
+                <!-- 'Berawan', 'Hujan ringan', 'Hujan sedang', 'Hujan lebat', 
+#                'Hujan sangat lebat', 'Hujan ekstrem' -->
+                {% if (cuaca_esok)=="Berawan" %}
+                <img
+                    class="h-52 md:h-52"
+                    src="https://www.caspianwebmet.com/img/legendIcons/partly_cloudy.png"
+                    alt="Berawan"
+                />
+                {% elif (cuaca_esok)=="Hujan ringan" %}
+                <img
+                    class="h-52 md:h-52"
+                    src="https://www.caspianwebmet.com/img/legendIcons/rain_shower.png"
+                    alt="Hujan ringan"
+                />
+                {% elif (cuaca_esok)=="Hujan sedang" %}
+                <img
+                    class="h-52 md:h-52"
+                    src="https://www.caspianwebmet.com/img/legendIcons/drizzle.png"
+                    alt="Hujan sedang"
+                />
+                {% elif (cuaca_esok)=="Hujan lebat" %}
+                <img
+                    class="h-52 md:h-52"
+                    src="https://www.caspianwebmet.com/img/legendIcons/rain.png"
+                    alt="Hujan lebat"
+                />
+                {% elif (cuaca_esok)=="Hujan sangat lebat" %}
+                <img
+                    class="h-52 md:h-52"
+                    src="https://www.caspianwebmet.com/img/legendIcons/thunderstorm.png"
+                    alt="Hujan sangat lebat"
+                />
+                {% elif (cuaca_esok)=="Hujan ekstrem" %}
+                <img
+                    class="h-52 md:h-52"
+                    src="https://www.caspianwebmet.com/img/legendIcons/wintry_shower_thunder.png"
+                    alt="Hujan ekstrem"
+                />
+                {% else %}
+                <img
+                    class="h-52 md:h-52"
+                    src="https://www.caspianwebmet.com/img/legendIcons/sunny-fair.png"
+                    alt="Cerah"
+                />
+                {% endif %}            
+          </div>
+            <div class="flex-auto justify-around bg-white p-16 rounded-lg mt-8">
+                <h1 class="text-2xl mb-2">
+                    Keterangan:
+                </h1>
+                <h2 class="text-1xl mb-2">
+                    <ol class="list-decimal">
+                        <li>Model yang digunakan dalam prediksi masih terbatas 
+                            untuk kota Surabaya</li>
+                        <li>Data input dapat diperoleh dari pengamatan sendiri, atau dapat dilihat di laman <a href="https://dataonline.bmkg.go.id/">BMKG Online</a></li>
+                        <li>Contoh Input: Temperatur Minimal = 25, Temperatur Maksimal = 33.4, Kelembapan Rata-rata = 74, Curah Hujan = 0, 
+                            Lama Sinar Matahari = 8.8, Kecepatan Angin Rata-rata = 2. Output: Level Hujan = Berawan.</li>
+                    </ol>
+                </h2>
+            </div>
+        </section>
+    </body>
+</html>
